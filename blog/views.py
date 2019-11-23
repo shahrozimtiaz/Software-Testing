@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect,reverse
 from django.contrib.auth.models import User
+from .models import Post
 from django.contrib.auth import login,logout,authenticate
 from django.contrib import messages
 
@@ -28,7 +29,17 @@ def loginPage(request):
     return render(request, 'blog/login.html')
 
 def posts(request):
-    return render(request, 'blog/posts.html')
+    posts = list(Post.objects.all().order_by('-timeStamp'))
+    return render(request, 'blog/posts.html',{'posts':posts})
+
+def makePost(request):
+    if request.method == "POST":
+        if request.POST.get('title') and request.POST.get('post'):
+            user = User.objects.get(username=request.user.username)
+            Post(user=user,title=request.POST.get('title'),post=request.POST.get('post')).save()
+            return redirect(reverse('blog:posts'))
+
+    return render(request, 'blog/makePost.html')
 
 def signout(request):
     logout(request)

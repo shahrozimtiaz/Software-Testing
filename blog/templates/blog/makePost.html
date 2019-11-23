@@ -1,0 +1,22 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<main role="main" class="container">
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input required class="form-control" id="title" name="title" aria-describedby="emailHelp" placeholder="Enter a title">
+        </div>
+        <div class="form-group">
+            <label for="post">Post</label>
+            <textarea required class="form-control" id="post" name="post" placeholder="Type your post :)" rows="8"></textarea>
+        </div>
+        <br>
+        <div class="text-center">
+            <button type="submit" class="btn btn-success">Post</button>
+        </div>
+    </form>
+</main>
+{% endblock %}
